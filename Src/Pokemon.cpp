@@ -1,3 +1,13 @@
+/**
+ * Rôle    : Implémentation de la logique de la classe Pokemon.
+ * 
+ * Fonctionnalités :
+ * - Contient le code effectif des constructeurs pour initialiser les attributs.
+ * - Définit la logique des combats entre deux Pokémon (méthode Battle).
+ * - Gère le formatage du texte pour l'affichage des informations (displayInfo).
+ */
+
+
 #include <iostream>
 #include <string>
 #include "Pokemon.hpp"

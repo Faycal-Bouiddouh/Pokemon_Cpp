@@ -1,3 +1,13 @@
+/**
+ * Rôle    : Implémentation de la base de données (Pokedex).
+ * 
+ * Fonctionnalités :
+ * - Gère l'ouverture, la lecture et le parsing sécurisé du fichier pokedex.csv.
+ * - Remplit la liste interne en convertissant les lignes de texte en objets Pokemon.
+ * - Implémente la méthode de clonage qui retourne un nouveau Pokémon identique
+ *   à celui stocké, empêchant la modification de la base de données originelle.
+ */
+
 #include "Pokedex.hpp"
 #include <iostream>
 #include <fstream>

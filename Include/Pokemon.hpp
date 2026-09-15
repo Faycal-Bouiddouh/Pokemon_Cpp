@@ -1,3 +1,14 @@
+
+/**
+ * Rôle    : Déclaration de la classe Pokemon.
+ * 
+ * Fonctionnalités :
+ * - Définit l'entité de base du jeu et ses attributs privés (ID, nom, stats).
+ * - Déclare les constructeurs (dont le constructeur de copie) et le destructeur.
+ * - Déclare les accesseurs (getters) et les méthodes d'action (Battle, display).
+ */
+
+
 #ifndef POKEMON_HPP
 #define POKEMON_HPP
 
