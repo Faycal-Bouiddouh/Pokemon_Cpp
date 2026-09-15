@@ -28,8 +28,8 @@ PokemonParty::PokemonParty(const std::vector<std::string>& sixNames, Pokeball& p
 {
     std::cout << "*** Initialisation de l'equipe ***" << std::endl;
     for (const std::string& name : sixNames) {
-        Pokemon dummySearch(0, name, "", "", 0, 0, 0, 0, 0, 0, 0, 0, false); 
-        Pokemon extracted = linkedPokeball.getPokemonWithName(dummySearch);
+        Pokemon Search_test(0, name, "", "", 0, 0, 0, 0, 0, 0, 0, 0, false); 
+        Pokemon extracted = linkedPokeball.getPokemonWithName(Search_test);
         pokemonList.push_back(extracted);
     }
 }
@@ -40,9 +40,9 @@ void PokemonParty::addPokemon(int targetId) {
         return;
     }
     
-    Pokemon dummySearch(targetId, "Search", "", "", 0, 0, 0, 0, 0, 0, 0, 0, false);
+    Pokemon Search_test(targetId, "Search", "", "", 0, 0, 0, 0, 0, 0, 0, 0, false);
     
-    Pokemon extracted = linkedPokeball.getPokemonWithId(dummySearch);
+    Pokemon extracted = linkedPokeball.getPokemonWithId(Search_test);
     pokemonList.push_back(extracted);
 }
 
