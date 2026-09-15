@@ -1,8 +1,8 @@
-# 🎮 Projet Pokémon C++
+#  Projet Pokémon C++
 
 Ce projet académique développé en C++ modélise un système de gestion de Pokémon. Il implémente des concepts avancés de la programmation orientée objet (POO) pour gérer une base de données de Pokémon, un système de stockage (PC) et l'équipe active d'un dresseur.
 
-## 🌟 Fonctionnalités
+##  Fonctionnalités
 
 *   **Pokédex (Singleton) :** Chargement automatique des statistiques des Pokémon depuis un fichier `pokedex.csv`. Implémentation du *Design Pattern Singleton* pour garantir une instance unique de la base de données.
 *   **Pokeball (PC de stockage) :** Boîte permettant de stocker les Pokémon capturés.
@@ -10,10 +10,8 @@ Ce projet académique développé en C++ modélise un système de gestion de Pok
 *   **Logique de transfert :** Mécanisme de déplacement réaliste. L'ajout d'un Pokémon dans l'équipe le retire automatiquement du PC de stockage.
 *   **Moteur Graphique :** Environnement configuré avec **CMake** pour une intégration de la bibliothèque **SFML 3**.
 
-## 🏗️ Architecture du Projet
+##  Architecture du Projet
 
-Le projet repose sur une architecture orientée objet utilisant l'héritage. 
-`SetOfPokemon` sert de classe abstraite/de base pour gérer les listes de Pokémon.
 
 ```text
 📁 Pokemon_C++
