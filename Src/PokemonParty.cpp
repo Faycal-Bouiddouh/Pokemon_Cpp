@@ -40,6 +40,9 @@ void PokemonParty::addPokemon(int targetId) {
         return;
     }
     
+    // REVIEW : Construire un Pokemon complet juste pour faire passer un id me paraît inutile.
+    // Je passerais directement l'id à getPokemonWithId(int id). Ça éviterait aussi que l'objet
+    // "Search" puisse finir dans l'équipe si la recherche échoue.
     Pokemon Search_test(targetId, "Search", "", "", 0, 0, 0, 0, 0, 0, 0, 0, false);
     
     Pokemon extracted = linkedPokeball.getPokemonWithId(Search_test);

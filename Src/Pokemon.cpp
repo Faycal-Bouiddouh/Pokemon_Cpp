@@ -21,6 +21,13 @@ id(i),name(n),type1(t1),type2(t2),Total(total),hitPoint(h),attack(a),defense(d),
     ++NumberOfPokemon;
 }
 
+// REVIEW : Le constructeur de copie n'incrémente pas NumberOfPokemon alors que le
+// destructeur le décrémente. Avec toutes les copies faites dans les vector, le compteur
+// finit donc par devenir négatif. Chez moi il arrivait à -1026.
+// Ajouter ++NumberOfPokemon; ici devrait régler le problème.
+
+// REVIEW : L'ordre de la liste d'initialisation ne correspond pas à l'ordre de déclaration
+// des attributs. Ça fonctionne quand même, mais g++ le signale avec -Wreorder.
 Pokemon::Pokemon(const Pokemon& anotherPokemon):
 name(anotherPokemon.name),id(anotherPokemon.id),type1(anotherPokemon.type1),type2(anotherPokemon.type2),Total(anotherPokemon.Total),hitPoint(anotherPokemon.hitPoint),attack(anotherPokemon.attack),defense(anotherPokemon.defense),specialAttack(anotherPokemon.specialAttack),specialDefense(anotherPokemon.specialDefense),speed(anotherPokemon.speed),generation(anotherPokemon.generation),legendary(anotherPokemon.legendary){
     

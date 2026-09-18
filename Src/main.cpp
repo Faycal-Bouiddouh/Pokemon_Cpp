@@ -1,6 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <windows.h> 
+// REVIEW : windows.h était inclus directement, donc ça bloquait la compilation sous Linux.
+// J'ai simplement ajouté cette garde pour garder le comportement Windows sans bloquer Linux.
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #include "Pokedex.hpp"
 #include "Pokeball.hpp"
@@ -10,7 +14,9 @@
 using namespace std;
 
 int main() {
+#ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
+#endif
 
     cout << "========== PHASE 1 : CHARGEMENT DU POKEDEX ==========" << endl;
     Pokedex& pokedex = Pokedex::getInstance();
@@ -40,6 +46,15 @@ int main() {
     cout << "\n========== PHASE 4 : VERIFICATION DU PC ==========" << endl;
     cout << "Contenu du PC apres transfert (Bulbizarre et Carapuce ont disparu) :" << endl;
     monPC.displayAllPokemon();
+
+    cout << "\n========== PHASE 5 : TRI DE L'EQUIPE (methode proposee) ==========" << endl;
+    // La lambda ci-dessous est le comparateur passé à sortBy : ordre de vitesse
+    // décroissante, soit l'ordre dans lequel les Pokémon frapperaient en combat.
+    monEquipe.sortBy([](const Pokemon& a, const Pokemon& b) {
+        return a.getSpeed() > b.getSpeed();
+    });
+    cout << "Equipe triee par vitesse decroissante :" << endl;
+    monEquipe.displayAllPokemon();
 
     return 0;
 }
