@@ -20,6 +20,10 @@ void Pokeball::addPokemon(const Pokemon& p) {
     pokemonList.push_back(p);
 }
 
+// REVIEW : Si la recherche échoue, la méthode renvoie p, donc le Pokémon "Search"
+// créé juste pour faire la recherche peut finir dans l'équipe avec toutes ses stats à 0.
+// Je mettrais plutôt un std::optional<Pokemon> en retour pour pouvoir signaler
+// simplement qu'aucun Pokémon n'a été trouvé.
 Pokemon Pokeball::getPokemonWithId(const Pokemon& p) {
     for (auto it = pokemonList.begin(); it != pokemonList.end(); ++it) {
         if (it->getId() == p.getId()) {
