@@ -1,36 +1,51 @@
 /**
- * Rôle    : Implémentation des comportements par défaut des listes de Pokémon.
+ * Purpose: Implements the default behavior for Pokemon collections.
  * 
- * Fonctionnalités :
- * - Contient la logique de base pour rechercher un Pokémon par ID ou par nom.
- * - Parcourt le vecteur interne pour afficher tous les Pokémon de la liste 
- *   (displayAllPokemon).
+ * Features:
+ * - Provides the basic search logic for Pokemon IDs and names.
+ * - Displays all Pokemon in the internal collection.
  */
 
-#include <iostream>
-#include "Pokemon.hpp"
+#include <stdexcept>
+#include <algorithm>
+#include "Display.hpp"
 #include "SetOfPokemon.hpp" 
 
 using namespace std;
 
-Pokemon SetOfPokemon::getPokemonWithId(const Pokemon& p){
-    for (const Pokemon& pokemon : pokemonList) {
-        if (pokemon.getId() == p.getId()) {
-            return pokemon;
-        }
+// Finds a Pokemon by ID and returns it if present.
+Pokemon SetOfPokemon::findPokemonById(int id) const {
+    const auto pokemon = std::find_if(pokemonList.begin(), pokemonList.end(), [id](const Pokemon& candidate) {
+        return candidate.getId() == id;
+    });
+    if (pokemon == pokemonList.end()) {
+        throw std::runtime_error("Pokemon introuvable dans la collection (ID).");
     }
+    return *pokemon;
 }
 
-Pokemon SetOfPokemon::getPokemonWithName(const Pokemon& p){
-    for (const Pokemon& pokemon : pokemonList) {
-        if (pokemon.getName() == p.getName()) {
-            return pokemon;
-        }
+// Finds a Pokemon by its exact name in the current collection.
+Pokemon SetOfPokemon::findPokemonByName(const string& name) const {
+    const auto pokemon = std::find_if(pokemonList.begin(), pokemonList.end(), [&name](const Pokemon& candidate) {
+        return candidate.getName() == name;
+    });
+    if (pokemon == pokemonList.end()) {
+        throw std::runtime_error("Pokemon introuvable dans la collection (nom).");
     }
+    return *pokemon;
 }
 
+// Provides read-only access to the collection.
+const vector<Pokemon>& SetOfPokemon::getPokemonList() const {
+    return pokemonList;
+}
+
+// Displays the Pokemon in this collection using the display utilities.
 void SetOfPokemon::displayAllPokemon() const {
-    for (const Pokemon& pokemon : pokemonList) {
-        pokemon.displayInfo();
-    }
+    displayPokemonCollection(pokemonList);
+}
+
+// Sorts the collection using a comparison function supplied by the caller.
+void SetOfPokemon::sortBy(const std::function<bool(const Pokemon&, const Pokemon&)>& comparator) {
+    std::sort(pokemonList.begin(), pokemonList.end(), comparator);
 }

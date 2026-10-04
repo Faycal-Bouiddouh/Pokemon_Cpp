@@ -1,146 +1,150 @@
 /**
- * Rôle    : Implémentation de la logique de la classe Pokemon.
+ * Purpose: Implements the Pokemon class logic.
  * 
- * Fonctionnalités :
- * - Contient le code effectif des constructeurs pour initialiser les attributs.
- * - Définit la logique des combats entre deux Pokémon (méthode Battle).
- * - Gère le formatage du texte pour l'affichage des informations (displayInfo).
+ * Features:
+ * - Defines the constructors used to initialize Pokemon attributes.
+ * - Implements battle rules and data accessors.
  */
 
-
-#include <iostream>
+#include <algorithm>
 #include <string>
+#include <utility>
 #include "Pokemon.hpp"
+#include "TypeChart.hpp"
 
-using namespace std;
+int Pokemon::pokemonCount = 0;
 
-int Pokemon::NumberOfPokemon = 0;
-
-Pokemon::Pokemon(int i,string n,string t1,string t2,double total,double h,double a,double d,double sa,double sd,double s,int g, bool l):
-id(i),name(n),type1(t1),type2(t2),Total(total),hitPoint(h),attack(a),defense(d),specialAttack(sa),specialDefense(sd),speed(s),generation(g),legendary(l){
-    ++NumberOfPokemon;
+// Creates a Pokemon with its base statistics and increments the global counter.
+Pokemon::Pokemon(int id, std::string name, std::string primaryType, std::string secondaryType,
+                 double totalStats, double hitPoints, double attackPower,
+                 double defensePower, double specialAttackPower,
+                 double specialDefensePower, double speed, int generation, bool legendary)
+    : id(id), name(std::move(name)), primaryType(std::move(primaryType)),
+      secondaryType(std::move(secondaryType)), totalStats(totalStats),
+      hitPoints(hitPoints), attackPower(attackPower), defensePower(defensePower),
+      specialAttackPower(specialAttackPower), specialDefensePower(specialDefensePower),
+      speed(speed), generation(generation), legendary(legendary) {
+    ++pokemonCount;
 }
 
-Pokemon::Pokemon(const Pokemon& anotherPokemon):
-name(anotherPokemon.name),id(anotherPokemon.id),type1(anotherPokemon.type1),type2(anotherPokemon.type2),Total(anotherPokemon.Total),hitPoint(anotherPokemon.hitPoint),attack(anotherPokemon.attack),defense(anotherPokemon.defense),specialAttack(anotherPokemon.specialAttack),specialDefense(anotherPokemon.specialDefense),speed(anotherPokemon.speed),generation(anotherPokemon.generation),legendary(anotherPokemon.legendary){
-    
+// Copies another Pokemon's attributes to create a distinct instance.
+Pokemon::Pokemon(const Pokemon& anotherPokemon)
+    : id(anotherPokemon.id), name(anotherPokemon.name), primaryType(anotherPokemon.primaryType),
+      secondaryType(anotherPokemon.secondaryType), totalStats(anotherPokemon.totalStats),
+      hitPoints(anotherPokemon.hitPoints), attackPower(anotherPokemon.attackPower),
+      defensePower(anotherPokemon.defensePower), specialAttackPower(anotherPokemon.specialAttackPower),
+      specialDefensePower(anotherPokemon.specialDefensePower), speed(anotherPokemon.speed),
+      generation(anotherPokemon.generation), legendary(anotherPokemon.legendary) {
+    ++pokemonCount;
 }
 
-int Pokemon::getNumberOfPokemon(){
-    return NumberOfPokemon;
+// Returns the total number of Pokemon created during the game session.
+int Pokemon::getNumberOfPokemon() {
+    return pokemonCount;
 }
 
-double Pokemon::getAttack() const{
-    return attack;
+// Returns the Pokemon's attack power used to calculate damage.
+double Pokemon::getAttack() const {
+    return attackPower;
 }
 
-double Pokemon::getDefense() const{
-    return defense;
+// Returns the Pokemon's physical defense used to reduce incoming damage.
+double Pokemon::getDefense() const {
+    return defensePower;
 }
 
-double Pokemon::getHitPoint() const{
-    return hitPoint;
+// Returns the Pokemon's current hit points.
+double Pokemon::getHitPoint() const {
+    return hitPoints;
 }
 
-int Pokemon::getId() const{
+// Returns the Pokemon's unique database ID.
+int Pokemon::getId() const {
     return id;
 }
 
-string Pokemon::getName() const{
+// Returns the Pokemon's name.
+std::string Pokemon::getName() const {
     return name;
 }
 
-string Pokemon::getType1() const{
-    return type1;
+std::string Pokemon::getType1() const {
+    return primaryType;
 }
 
-string Pokemon::getType2() const{
-    return type2;
+std::string Pokemon::getType2() const {
+    return secondaryType;
 }
 
-double Pokemon::getSpecialAttack() const{
-    return specialAttack;
+double Pokemon::getSpecialAttack() const {
+    return specialAttackPower;
 }
 
-double Pokemon::getSpecialDefense() const{
-    return specialDefense;
+double Pokemon::getSpecialDefense() const {
+    return specialDefensePower;
 }
 
-double Pokemon::getSpeed() const{
+double Pokemon::getSpeed() const {
     return speed;
 }
 
-void Pokemon::Battle(Pokemon& target){
-    cout << "****** BATTLE ******" << endl;
-    if(this->speed > target.getSpeed())
-    {
-        cout << this->name << " est plus rapide que " << target.name << endl;
-        if(this->attack > target.getDefense())
-        {
-            cout << this->name << " attaque " << target.name << endl;
-            cout << target.name << " perd " << this->attack - target.getDefense() << " points de vie" << endl;
-            target.hitPoint -= this->attack - target.getDefense();
-            if(target.hitPoint < 0)
-            {
-                target.hitPoint = 0;
-            }
-            cout << target.name << " a maintenant " << target.getHitPoint() << " points de vie" << endl;
-        }
-        else
-        {
-            cout << this->name << " attaque " << target.name << endl;
-            cout << target.name << " se protège et ne perd pas de points de vie" << endl;
-        }
-
-        if(target.getHitPoint() <= 0)
-        {
-            cout << target.name << " est KO" << endl;
-        }
-    }
-    else
-    {
-        cout << target.name << " est plus rapide que " << this->name << endl;
-        if(target.getAttack() > this->defense)
-        {
-            cout << target.name << " attaque " << this->name << endl;
-            cout << this->name << " perd " << target.getAttack() - this->defense << " points de vie" << endl;
-            this->hitPoint -= target.getAttack() - this->defense;
-            if(this->hitPoint < 0)
-            {
-                this->hitPoint = 0;
-            }
-            cout << this->name << " a maintenant " << this->getHitPoint() << " points de vie" << endl;
-        }
-        else
-        {
-            cout << target.name << " attaque " << this->name << endl;
-            cout << this->name << " se protège et ne perd pas de points de vie" << endl;
-        }
-
-        if(this->getHitPoint() <= 0)
-        {
-            cout << this->name << " est KO" << endl;
-        }
-    }
+int Pokemon::getGeneration() const {
+    return generation;
 }
 
-
-void Pokemon::displayInfo() const{
-    cout << "****** " << name << " ******" << endl;
-    cout << "Id : " << id << endl;
-    cout << "Type 1 : " << type1 << endl;
-    cout << "Type 2 : " << type2 << endl;
-    cout << "HitPoint : " << hitPoint << endl;
-    cout << "Attack : " << attack << endl;
-    cout << "Defense : " << defense << endl;
-    cout << "Special Attack : " << specialAttack << endl;
-    cout << "Special Defense : " << specialDefense << endl;
-    cout << "Speed : " << speed << endl;
-    cout << "Generation : " << generation << endl;
-    cout << "Legendary : " << (legendary ? "Yes" : "No") << endl;
-
+bool Pokemon::isLegendary() const {
+    return legendary;
 }
 
-Pokemon::~Pokemon(){
-    --NumberOfPokemon;    
+// Calculates the type effectiveness multiplier against the target Pokemon.
+double Pokemon::getTypeEffectivenessAgainst(const Pokemon& target) const {
+    double effectiveness = calculateTypeEffectiveness(primaryType, target.primaryType);
+    if (!target.secondaryType.empty()) {
+        effectiveness *= calculateTypeEffectiveness(primaryType, target.secondaryType);
+    }
+    return effectiveness;
+}
+
+// Reduces the target Pokemon's hit points without going below zero.
+void Pokemon::takeDamage(double damage) {
+    hitPoints = std::max(0.0, hitPoints - damage);
+}
+
+// Simulates one attack and returns a detailed result.
+AttackResult Pokemon::attack(Pokemon& target) {
+    AttackResult result{name, target.name, getTypeEffectivenessAgainst(target), 0.0, target.hitPoints, false, false};
+    if (result.typeEffectiveness == 0.0) {
+        result.hasNoEffect = true;
+        return result;
+    }
+
+    result.damage = std::max(0.0, attackPower - target.defensePower) * result.typeEffectiveness;
+    if (result.damage == 0.0) {
+        return result;
+    }
+
+    target.takeDamage(result.damage);
+    result.remainingHitPoints = target.hitPoints;
+    result.defenderKnockedOut = target.hitPoints == 0.0;
+    return result;
+}
+
+// Determines attack order from speed before exchanging attacks.
+BattleResult Pokemon::battle(Pokemon& target) {
+    BattleResult result;
+    if (speed > target.speed) {
+        result.fasterPokemonName = name;
+        result.slowerPokemonName = target.name;
+        result.attack = attack(target);
+    } else {
+        result.fasterPokemonName = target.name;
+        result.slowerPokemonName = name;
+        result.attack = target.attack(*this);
+    }
+    return result;
+}
+
+// Decrements the global counter when the object is destroyed.
+Pokemon::~Pokemon() {
+    --pokemonCount;
 }

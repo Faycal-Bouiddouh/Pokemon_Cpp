@@ -1,45 +1,48 @@
 /**
- * Rôle    : Implémentation de la logique de stockage du PC.
+ * Purpose: Implements the PC storage logic.
  * 
- * Fonctionnalités :
- * - Implémente la logique d'ajout standard dans le vecteur.
- * - Modifie le comportement de la récupération : lorsqu'un Pokémon est 
- *   retrouvé (par ID ou nom), la méthode le copie, puis utilise un itérateur 
- *   pour l'effacer définitivement (erase) de la Pokeball avant de le renvoyer.
+ * Features:
+ * - Adds Pokemon to the underlying vector.
+ * - Removes a Pokemon from the PC when retrieving it by ID or name.
  */
 
 #include "Pokeball.hpp"
-#include <iostream>
+#include <algorithm>
+#include <stdexcept>
 
 using namespace std;
 
+// Initializes an empty PC ready to store Pokemon.
 Pokeball::Pokeball() : SetOfPokemon() {
 }
 
+// Adds a Pokemon to the player's storage without checking for duplicate names.
 void Pokeball::addPokemon(const Pokemon& p) {
     pokemonList.push_back(p);
 }
 
-Pokemon Pokeball::getPokemonWithId(const Pokemon& p) {
-    for (auto it = pokemonList.begin(); it != pokemonList.end(); ++it) {
-        if (it->getId() == p.getId()) {
-            Pokemon foundPokemon = *it; 
-            pokemonList.erase(it);      
-            return foundPokemon;        
-        }
+// Removes and returns the Pokemon matching the given ID.
+Pokemon Pokeball::takePokemonById(int id) {
+    const auto pokemon = std::find_if(pokemonList.begin(), pokemonList.end(), [id](const Pokemon& candidate) {
+        return candidate.getId() == id;
+    });
+    if (pokemon == pokemonList.end()) {
+        throw std::runtime_error("Pokemon not found in the PC (ID).");
     }
-    std::cerr << "Erreur : Pokemon introuvable dans la Pokeball." << std::endl;
-    return p;
+    Pokemon extractedPokemon = *pokemon;
+    pokemonList.erase(pokemon);
+    return extractedPokemon;
 }
 
-Pokemon Pokeball::getPokemonWithName(const Pokemon& p) {
-    for (auto it = pokemonList.begin(); it != pokemonList.end(); ++it) {
-        if (it->getName() == p.getName()) {
-            Pokemon foundPokemon = *it;
-            pokemonList.erase(it);
-            return foundPokemon;
-        }
+// Removes and returns the Pokemon matching the given name.
+Pokemon Pokeball::takePokemonByName(const string& name) {
+    const auto pokemon = std::find_if(pokemonList.begin(), pokemonList.end(), [&name](const Pokemon& candidate) {
+        return candidate.getName() == name;
+    });
+    if (pokemon == pokemonList.end()) {
+        throw std::runtime_error("Pokemon not found in the PC (name).");
     }
-    std::cerr << "Erreur : Pokemon introuvable dans la Pokeball." << std::endl;
-    return p;
+    Pokemon extractedPokemon = *pokemon;
+    pokemonList.erase(pokemon);
+    return extractedPokemon;
 }
