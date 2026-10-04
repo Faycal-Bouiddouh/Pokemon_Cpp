@@ -211,7 +211,6 @@ Pokemon_C++
 │   └── ...
 ├── ressources/
 │   ├── pokedex.csv
-│   ├── fonts/             # Optional font fallback
 │   └── pokemon/            # Pokemon sprites
 ├── CMakeLists.txt
 ├── Readme.md
